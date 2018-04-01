@@ -1,0 +1,230 @@
+\hypertarget{main_8c}{}\section{main.\+c File Reference}
+\label{main_8c}\index{main.\+c@{main.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{main_8c_a16e936a5369064315b9b8ec4d7a5ba3a}{I\+N\+F\+I\+NI}~9999
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{main_8c_abd8bbcfabb3ddef2ccaafb9928a37b95}{min} (int a, int b)
+\item 
+int \hyperlink{main_8c_af082905f7eac6d03e92015146bbc1925}{max} (int a, int b)
+\item 
+void \hyperlink{main_8c_a1356be3ef058e7481230fb55862d78ec}{free\+Tab2D} (int $\ast$$\ast$tab, int tailleX)
+\item 
+void \hyperlink{main_8c_af6a4626f69292180b7853b9eb5bfc6b2}{afficher\+Tab\+Entier} (int $\ast$tab, int taille\+Tab)
+\item 
+void \hyperlink{main_8c_a25b87bd9509691427e0fd05add50088b}{afficher\+Tab2\+D\+Entier} (int $\ast$$\ast$tab, int tailleX, int tailleY, int nb\+Chiffre\+Max)
+\item 
+int $\ast$$\ast$ \hyperlink{main_8c_a00db591ab5b67601a6608be5d93067d3}{matrice\+Diff} (int $\ast$sequenceA, int $\ast$sequenceB, int taille\+SeqA, int taille\+SeqB)
+\item 
+void \hyperlink{main_8c_adfd39dba5b1d5cdf82fbeae5495d1dd1}{afficher\+Alignement\+Seq\+AB} (int $\ast$sequenceA, int $\ast$sequenceB, int taille\+SeqA, int taille\+SeqB, int $\ast$indice\+Bpour\+Bprime)
+\item 
+void \hyperlink{main_8c_ad8a6cdc77372408327a94bb73763a33b}{M\+VM} (int $\ast$sequenceA, int $\ast$sequenceB, int taille\+SeqA, int taille\+SeqB)
+\item 
+int $\ast$ \hyperlink{main_8c_a71d3b074915b570ddd3d57d9afe142b8}{saisie\+Sequence} (int $\ast$taille\+Sequence)
+\item 
+void \hyperlink{main_8c_a4ef8a1af53ba286de58585b1ff4d1f20}{saisie\+Sequence\+A\+Bmvm} (int $\ast$$\ast$sequenceA, int $\ast$$\ast$sequenceB, int $\ast$taille\+SeqA, int $\ast$taille\+SeqB)
+\item 
+int \hyperlink{main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{main} ()
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{main_8c_a16e936a5369064315b9b8ec4d7a5ba3a}{}\label{main_8c_a16e936a5369064315b9b8ec4d7a5ba3a} 
+\index{main.\+c@{main.\+c}!I\+N\+F\+I\+NI@{I\+N\+F\+I\+NI}}
+\index{I\+N\+F\+I\+NI@{I\+N\+F\+I\+NI}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{I\+N\+F\+I\+NI}{INFINI}}
+{\footnotesize\ttfamily \#define I\+N\+F\+I\+NI~9999}
+
+
+
+\subsection{Function Documentation}
+\hypertarget{main_8c_adfd39dba5b1d5cdf82fbeae5495d1dd1}{}\label{main_8c_adfd39dba5b1d5cdf82fbeae5495d1dd1} 
+\index{main.\+c@{main.\+c}!afficher\+Alignement\+Seq\+AB@{afficher\+Alignement\+Seq\+AB}}
+\index{afficher\+Alignement\+Seq\+AB@{afficher\+Alignement\+Seq\+AB}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{afficher\+Alignement\+Seq\+A\+B()}{afficherAlignementSeqAB()}}
+{\footnotesize\ttfamily void afficher\+Alignement\+Seq\+AB (\begin{DoxyParamCaption}\item[{int $\ast$}]{sequenceA,  }\item[{int $\ast$}]{sequenceB,  }\item[{int}]{taille\+SeqA,  }\item[{int}]{taille\+SeqB,  }\item[{int $\ast$}]{indice\+Bpour\+Bprime }\end{DoxyParamCaption})}
+
+Affiche les sÈquences B et A l\textquotesingle{}une en dessous de l\textquotesingle{}autre en mettant en Èvidence les ÈlÈments liÈs entre les 2 (dÈterminÈs par l\textquotesingle{}algorithme M\+VM).
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$sequenceA} & Tableau d\textquotesingle{}entiers reprÈsentant la sÈquence A (le \char`\"{}modËle\char`\"{} ‡ retrouver dans la sÈquence B). \\
+\hline
+{\em $\ast$sequenceB} & Tableau d\textquotesingle{}entiers reprÈsentant la sÈquence B (la sÈquence source dans laquelle on procÈdera ‡ l\textquotesingle{}analyse). \\
+\hline
+{\em taille\+SeqA} & Taille de la sÈquence A (nombre de cases dans la tableau). \\
+\hline
+{\em taille\+SeqB} & Taille de la sÈquence B (nombre de cases dans la tableau). \\
+\hline
+{\em $\ast$indice\+Bpour\+Bprime} & Le tableau de correspondance sequenceA $<$=$>$ sÈquenceB de la taille de sÈquenceA (appelÈ indice\+Bpour\+Bprime). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+--$>$ Correspondance seqA $<$=$>$ seqB, pour chaque case i de ce tableau\+: sequenceA\mbox{[}i\mbox{]} $<$=$>$ sequenceB\mbox{[}indice\+Bpour\+Bprime\mbox{[}i\mbox{]}\mbox{]}. 
+\end{DoxyNote}
+\hypertarget{main_8c_a25b87bd9509691427e0fd05add50088b}{}\label{main_8c_a25b87bd9509691427e0fd05add50088b} 
+\index{main.\+c@{main.\+c}!afficher\+Tab2\+D\+Entier@{afficher\+Tab2\+D\+Entier}}
+\index{afficher\+Tab2\+D\+Entier@{afficher\+Tab2\+D\+Entier}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{afficher\+Tab2\+D\+Entier()}{afficherTab2DEntier()}}
+{\footnotesize\ttfamily void afficher\+Tab2\+D\+Entier (\begin{DoxyParamCaption}\item[{int $\ast$$\ast$}]{tab,  }\item[{int}]{tailleX,  }\item[{int}]{tailleY,  }\item[{int}]{nb\+Chiffre\+Max }\end{DoxyParamCaption})}
+
+Affiche les valeurs du tableau 2D passÈ en paramËtre sous forme de matrice.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$$\ast$tab} & Le tableau d\textquotesingle{}entiers 2D. \\
+\hline
+{\em tailleX} & La taille du tableau en X ($>$= 0). \\
+\hline
+{\em tailleY} & La taille du tableau en Y ($>$= 0). \\
+\hline
+{\em nb\+Chiffre\+Max} & Le nombre de chiffres maximum que peuvent contenir les valeurs du tableau. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+--$>$ Si les valeurs peuvent Ítre nÈgatives, ajouter 1 ‡ ce paramËtre. 
+
+--$>$ Valeurs autorisÈes pour ce paramËtre\+: 1 $\vert$ 2 $\vert$ 3 $\vert$ 4 $\vert$ 5 $\vert$ 6 $\vert$ 7 $\vert$ 8 $\vert$ 9 
+
+--$>$ Ce paramËtre sera utilisÈ pour formater correctement l\textquotesingle{}affichage du tableau en matrice. 
+\end{DoxyNote}
+\hypertarget{main_8c_af6a4626f69292180b7853b9eb5bfc6b2}{}\label{main_8c_af6a4626f69292180b7853b9eb5bfc6b2} 
+\index{main.\+c@{main.\+c}!afficher\+Tab\+Entier@{afficher\+Tab\+Entier}}
+\index{afficher\+Tab\+Entier@{afficher\+Tab\+Entier}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{afficher\+Tab\+Entier()}{afficherTabEntier()}}
+{\footnotesize\ttfamily void afficher\+Tab\+Entier (\begin{DoxyParamCaption}\item[{int $\ast$}]{tab,  }\item[{int}]{taille\+Tab }\end{DoxyParamCaption})}
+
+Affiche les valeurs du tableau passÈ en paramËtre, avec un espace entre chaque valeur.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$tab} & Le tableau d\textquotesingle{}entiers. \\
+\hline
+{\em taille\+Tab} & La taille du tableau ($>$= 0). \\
+\hline
+\end{DoxyParams}
+\hypertarget{main_8c_a1356be3ef058e7481230fb55862d78ec}{}\label{main_8c_a1356be3ef058e7481230fb55862d78ec} 
+\index{main.\+c@{main.\+c}!free\+Tab2D@{free\+Tab2D}}
+\index{free\+Tab2D@{free\+Tab2D}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{free\+Tab2\+D()}{freeTab2D()}}
+{\footnotesize\ttfamily void free\+Tab2D (\begin{DoxyParamCaption}\item[{int $\ast$$\ast$}]{tab,  }\item[{int}]{tailleX }\end{DoxyParamCaption})}
+
+LibËre l\textquotesingle{}espace mÈmoire utilisÈ par un tableau 2D dynamique allouÈ sur le tas.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$$\ast$tab} & Le tableau 2d dynamique d\textquotesingle{}entiers (au moins une ligne et une colonne). \\
+\hline
+{\em tailleX} & Le nombre de lignes du tableau. \\
+\hline
+\end{DoxyParams}
+\hypertarget{main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{}\label{main_8c_ae66f6b31b5ad750f1fe042a706a4e3d4} 
+\index{main.\+c@{main.\+c}!main@{main}}
+\index{main@{main}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{main()}{main()}}
+{\footnotesize\ttfamily int main (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\hypertarget{main_8c_a00db591ab5b67601a6608be5d93067d3}{}\label{main_8c_a00db591ab5b67601a6608be5d93067d3} 
+\index{main.\+c@{main.\+c}!matrice\+Diff@{matrice\+Diff}}
+\index{matrice\+Diff@{matrice\+Diff}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{matrice\+Diff()}{matriceDiff()}}
+{\footnotesize\ttfamily int$\ast$$\ast$ matrice\+Diff (\begin{DoxyParamCaption}\item[{int $\ast$}]{sequenceA,  }\item[{int $\ast$}]{sequenceB,  }\item[{int}]{taille\+SeqA,  }\item[{int}]{taille\+SeqB }\end{DoxyParamCaption})}
+
+Calcul de la matrice des diffÈrences pour l\textquotesingle{}algorithme M\+VM.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$sequenceA} & Tableau d\textquotesingle{}entiers reprÈsentant la sÈquence A (le \char`\"{}modËle\char`\"{} ‡ retrouver dans la sÈquence B). \\
+\hline
+{\em $\ast$sequenceB} & Tableau d\textquotesingle{}entiers reprÈsentant la sÈquence B (la sÈquence source dans laquelle on procÈdera ‡ l\textquotesingle{}analyse). \\
+\hline
+{\em taille\+SeqA} & Taille de la sÈquence A (nombre de cases dans la tableau). \\
+\hline
+{\em taille\+SeqB} & Taille de la sÈquence B (nombre de cases dans la tableau). \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+matrice Tableau 2D reprÈsentant la matrice des diffÈrences, allouÈ sur le tas. 
+\end{DoxyReturn}
+\hypertarget{main_8c_af082905f7eac6d03e92015146bbc1925}{}\label{main_8c_af082905f7eac6d03e92015146bbc1925} 
+\index{main.\+c@{main.\+c}!max@{max}}
+\index{max@{max}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{max()}{max()}}
+{\footnotesize\ttfamily int max (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})}
+
+Retourne la valeur de a si elle est plus grande que la valeur de b. Retourne la valeur de b sinon. \hypertarget{main_8c_abd8bbcfabb3ddef2ccaafb9928a37b95}{}\label{main_8c_abd8bbcfabb3ddef2ccaafb9928a37b95} 
+\index{main.\+c@{main.\+c}!min@{min}}
+\index{min@{min}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{min()}{min()}}
+{\footnotesize\ttfamily int min (\begin{DoxyParamCaption}\item[{int}]{a,  }\item[{int}]{b }\end{DoxyParamCaption})}
+
+Retourne la valeur de a si elle est plus petite que la valeur de b. Retourne la valeur de b sinon. \hypertarget{main_8c_ad8a6cdc77372408327a94bb73763a33b}{}\label{main_8c_ad8a6cdc77372408327a94bb73763a33b} 
+\index{main.\+c@{main.\+c}!M\+VM@{M\+VM}}
+\index{M\+VM@{M\+VM}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{M\+V\+M()}{MVM()}}
+{\footnotesize\ttfamily void M\+VM (\begin{DoxyParamCaption}\item[{int $\ast$}]{sequenceA,  }\item[{int $\ast$}]{sequenceB,  }\item[{int}]{taille\+SeqA,  }\item[{int}]{taille\+SeqB }\end{DoxyParamCaption})}
+
+Applique l\textquotesingle{}algorithme M\+VM. Affiche la matrice des diffÈrences, path et pathcost. Et enfin affiche la meilleure sous-\/sÈquence B\textquotesingle{} de B, la plus proche de la sÈquence A.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$sequenceA} & La sÈquence A dans un tableau d\textquotesingle{}entiers. \\
+\hline
+{\em $\ast$sequenceB} & La sÈquence B dans un tableau d\textquotesingle{}entiers. \\
+\hline
+{\em taille\+SeqA} & La taille de la sÈquence A. \\
+\hline
+{\em taille\+SeqB} & La taille de la sÈquence B.\\
+\hline
+\end{DoxyParams}
+\begin{DoxyNote}{Note}
+La taille de la sÈquence A doit Ítre infÈrieure ou Ègale ‡ celle de la sÈquence B. 
+\end{DoxyNote}
+\hypertarget{main_8c_a71d3b074915b570ddd3d57d9afe142b8}{}\label{main_8c_a71d3b074915b570ddd3d57d9afe142b8} 
+\index{main.\+c@{main.\+c}!saisie\+Sequence@{saisie\+Sequence}}
+\index{saisie\+Sequence@{saisie\+Sequence}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{saisie\+Sequence()}{saisieSequence()}}
+{\footnotesize\ttfamily int$\ast$ saisie\+Sequence (\begin{DoxyParamCaption}\item[{int $\ast$}]{taille\+Sequence }\end{DoxyParamCaption})}
+
+Demande ‡ l\textquotesingle{}utilisateur de saisir une sÈquence d\textquotesingle{}entiers et retourne la sÈquence dans un tableau d\textquotesingle{}entiers.
+
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$taille\+Sequence} & Pointeur vers un entier qui sera utilisÈ comme variable de sortie. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+sequence Le tableau d\textquotesingle{}entiers naturels contenant la sÈquence saisie par l\textquotesingle{}utilisateur, allouÈ sur le tas. 
+\end{DoxyReturn}
+\begin{DoxyNote}{Note}
+La taille de la sÈquence saisie par l\textquotesingle{}utilisateur et contenue dans le tableau de sortie. 
+\end{DoxyNote}
+\hypertarget{main_8c_a4ef8a1af53ba286de58585b1ff4d1f20}{}\label{main_8c_a4ef8a1af53ba286de58585b1ff4d1f20} 
+\index{main.\+c@{main.\+c}!saisie\+Sequence\+A\+Bmvm@{saisie\+Sequence\+A\+Bmvm}}
+\index{saisie\+Sequence\+A\+Bmvm@{saisie\+Sequence\+A\+Bmvm}!main.\+c@{main.\+c}}
+\subsubsection{\texorpdfstring{saisie\+Sequence\+A\+Bmvm()}{saisieSequenceABmvm()}}
+{\footnotesize\ttfamily void saisie\+Sequence\+A\+Bmvm (\begin{DoxyParamCaption}\item[{int $\ast$$\ast$}]{sequenceA,  }\item[{int $\ast$$\ast$}]{sequenceB,  }\item[{int $\ast$}]{taille\+SeqA,  }\item[{int $\ast$}]{taille\+SeqB }\end{DoxyParamCaption})}
+
+Demande ‡ l\textquotesingle{}utilisateur la saisie de deux sÈquences A et B et faÁon ‡ ce que ces sÈquences soient exploitables par l\textquotesingle{}algorithme M\+VM. (==$>$ sÈquences d\textquotesingle{}entiers positifs et taille de la sÈquence B $>$= taille de la sÈquences A). O˘ la sÈquence B est la sÈquence de dÈpart. Et o˘ la sÈquence A est le \char`\"{}modËle\char`\"{} ‡ retrouver dans la sÈquence B.
+
+\begin{DoxyNote}{Note}
+Pointeurs vers des variables qui seront utilisÈes comme variables de sortie. 
+\end{DoxyNote}
+
+\begin{DoxyParams}{Parameters}
+{\em $\ast$$\ast$sequenceA} & (Pointeur sur) la sÈquence A saisie par l\textquotesingle{}utilisateur (tableau allouÈ sur le tas). \\
+\hline
+{\em $\ast$$\ast$sequenceB} & (Pointeur sur) la sÈquence B saisie par l\textquotesingle{}utilisateur (tableau allouÈ sur le tas). \\
+\hline
+{\em $\ast$taille\+SeqA} & La taille de la sÈquence A. \\
+\hline
+{\em $\ast$taille\+SeqB} & La taille de la sÈquence B. \\
+\hline
+\end{DoxyParams}

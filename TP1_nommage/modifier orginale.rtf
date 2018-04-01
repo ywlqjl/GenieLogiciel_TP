@@ -1,0 +1,414 @@
+{\rtf1\ansi\ansicpg936\cocoartf1404\cocoasubrtf470
+{\fonttbl\f0\fmodern\fcharset0 Courier;}
+{\colortbl;\red255\green255\blue255;\red85\green142\blue40;}
+\paperw11900\paperh16840\margl1440\margr1440\vieww16080\viewh12820\viewkind0
+\deftab720
+\pard\pardeftab720\partightenfactor0
+
+\f0\fs26 \cf0 \expnd0\expndtw0\kerning0
+#include <stdio.h>\
+#include <stdlib.h>\
+#include <math.h>\
+#define INFINI 9999\
+\
+/*\
+    Retourne la valeur de a si elle est plus petite que la valeur de b.\
+    Retourne la valeur de b sinon.\
+*/\
+int min(int a, int b)\
+\{\
+    if(a >= b)\
+    \{\
+        return b;\
+    \}\
+    else\
+    \{\
+        return a;\
+    \}\
+\}\
+\
+int max(int a, int b)\
+\{\
+    if(a >= b)\
+    \{\
+        return a;\
+    \}\
+    else\
+    \{\
+        return b;\
+    \}\
+\}\
+\
+/*\
+    Lib\'cbre l'espace m\'c8moire utilis\'c8 par un tableau 2D dynamique allou\'c8 sur le tas.\
+    \
+    Entr\'c8e:\
+        * Le tableau 2d dynamique d'entiers (au moins une ligne et une colonne).\
+        * Le nombre de lignes du tableau.\
+*/\
+void freeTab2D(int **tab, int tailleX)\
+\{\
+    int i;\
+\
+    for(i = 0; i < tailleX; i++)\
+    \{\
+        free(tab[i]);\
+    \}\
+\
+    free(tab);\
+\}\
+\cf2 \
+\cf0 /*\
+    Affiche les valeurs du tableau pass\'c8 en param\'cbtre, avec un espace entre chaque valeur.\
+\
+    Entr\'c8e:\
+        * Le tableau d'entiers.\
+        * La taille du tableau (>= 0).\
+*/\
+void afficherTabEntier(int *tab, int tailleTab)\
+\{\
+    int i;\
+\
+    for(i = 0; i < tailleTab; i++)\
+    \{\
+        printf("%d ", tab[i]);\
+    \}\
+\}\
+/*\
+    Affiche les valeurs du tableau 2D pass\'c8 en param\'cbtre sous forme de matrice.\
+\
+    Entr\'c8e:\
+        * Le tableau d'entiers 2D.\
+        * La taille du tableau en X (>= 0).\
+        * La taille du tableau en Y (>= 0).\
+        * Le nombre de chiffres maximum que peuvent contenir les valeurs du tableau.\
+            --> Si les valeurs peuvent \'cdtre n\'c8gatives, ajouter 1 \'87 ce param\'cbtre.\
+            --> Valeurs autoris\'c8es pour ce param\'cbtre: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9\
+            --> Ce param\'cbtre sera utilis\'c8 pour formater correctement l'affichage du tableau en matrice.\
+*/\
+void afficherTab2DEntier(int **tab, int tailleX, int tailleY, int nbChiffreMax)\
+\{\
+    int i, j;\
+    /* char format[4] = \{'%', (char) (nbChiffreMax + '0'), 'd', ' '\}; */\
+\
+    for(i = 0; i < tailleX; i++)\
+    \{\
+        for(j = 0; j <= tailleY; j++)\
+        \{\
+            printf("%4d ", tab[i][j]);\
+        \}\
+\
+        printf("\\n");\
+    \}\
+\}\
+\
+/*\
+    Calcul de la matrice des diff\'c8rences pour l'algorithme MVM.\
+\
+    Entr\'c8e:\
+        * Tableau d'entiers repr\'c8sentant la s\'c8quence A (le "mod\'cble" \'87 retrouver dans la s\'c8quence B).\
+        * Tableau d'entiers repr\'c8sentant la s\'c8quence B (la s\'c8quence source dans laquelle on proc\'c8dera \'87 l'analyse).\
+        * Taille de la s\'c8quence A (nombre de cases dans la tableau).\
+        * Taille de la s\'c8quence B (nombre de cases dans la tableau).\
+    Sortie:\
+        * Tableau 2D repr\'c8sentant la matrice des diff\'c8rences, allou\'c8 sur le tas.\
+*/\
+int **matriceDiff(int *sequenceA, int *sequenceB, int tailleSeqA, int tailleSeqB)\
+\{\
+    int **matrice = (int **) malloc(sizeof(int*) * tailleSeqA);\
+    int i, j;\
+\
+    for(i = 0; i < tailleSeqA; i++)\
+    \{\
+        matrice[i] = (int *) malloc(sizeof(int) * tailleSeqB);\
+\
+        for(j = 0; j < tailleSeqB; j++)\
+        \{\
+            matrice[i][j] = sequenceB[j] - sequenceA[i];\
+        \}\
+    \}\
+\
+    return matrice;\
+\}\
+/*\
+    Affiche les s\'c8quences B et A l'une en dessous de l'autre en mettant en \'c8vidence les \'c8l\'c8ments li\'c8s entre les 2 (d\'c8termin\'c8s par l'algorithme MVM).\
+\
+    Entr\'c8e:\
+        * Tableau d'entiers repr\'c8sentant la s\'c8quence A (le "mod\'cble" \'87 retrouver dans la s\'c8quence B).\
+        * Tableau d'entiers repr\'c8sentant la s\'c8quence B (la s\'c8quence source dans laquelle on proc\'c8dera \'87 l'analyse).\
+        * Taille de la s\'c8quence A (nombre de cases dans la tableau).\
+        * Taille de la s\'c8quence B (nombre de cases dans la tableau).\
+        * Le tableau de correspondance sequenceA <=> s\'c8quenceB de la taille de s\'c8quenceA (appel\'c8 indiceBpourBprime).\
+            --> Correspondance seqA <=> seqB, pour chaque case i de ce tableau: sequenceA[i] <=> sequenceB[indiceBpourBprime[i]].\
+*/\
+void afficherAlignementSeqAB(int *sequenceA, int *sequenceB, int tailleSeqA, int tailleSeqB, int *indiceBpourBprime)\
+\{\
+    int i;\
+    int j = 0;\
+\
+    printf("Sequence B: ");\
+\
+    /* affichage de toute la s\'c8quence B */\
+    for(i = 0; i < tailleSeqB; i++)\
+    \{\
+        printf("%4d", sequenceB[i]);\
+    \}\
+\
+    printf("\\nSequence A: ");\
+\
+    /* affichage de toute la s\'c8quence A, morceau par morceau, de fa\'c1on \'87 aligner chaque \'c8l\'c8ment de la s\'c8quence A sur son \'c8l\'c8ment correspondant dans la s\'c8quence B */\
+    for(i = 0; i < tailleSeqB; i++)\
+    \{\
+        if(j < tailleSeqA)\
+        \{\
+            if(i == indiceBpourBprime[j]) /* alors l'\'c8l\'c8ment courant de la s\'c8quence B a une correspondance dans la s\'c8quence A */\
+            \{\
+                printf("%4d", sequenceA[j]);\
+                j++;\
+            \}\
+            else\
+            \{\
+                printf("%4c", (char) ' ');\
+            \}\
+        \}\
+    \}\
+\
+    printf("\\n");\
+\}\
+  \
+/*\
+    Applique l'algorithme MVM.\
+    Affiche la matrice des diff\'c8rences, path et pathcost.\
+    Et enfin affiche la meilleure sous-s\'c8quence B' de B, la plus proche de la s\'c8quence A.\
+\
+    Entr\'c8e:\
+        * La s\'c8quence A dans un tableau d'entiers.\
+        * La s\'c8quence B dans un tableau d'entiers.\
+        * La taille de la s\'c8quence A.\
+        * La taille de la s\'c8quence B.\
+\
+    Postconditions:\
+        La taille de la s\'c8quence A doit \'cdtre inf\'c8rieure ou \'c8gale \'87 celle de la s\'c8quence B.\
+\
+*/\
+void MVM(int *sequenceA, int *sequenceB, int tailleSeqA, int tailleSeqB)\
+\{\
+    int **r = matriceDiff(sequenceA, sequenceB, tailleSeqA, tailleSeqB);\
+    int elasticity = max(tailleSeqB - tailleSeqA,1+round(tailleSeqA/10)); /*round n'est pas dans le std C89*/\
+ 	printf("elasticity=%d\\n",elasticity); /* = nombre d\'ed\'c8l\'c8ments de B que l'on peut sauter pour d\'c8terminer B\'ed */\
+    int pathcost[tailleSeqA][tailleSeqB]; /* co\uc0\u730 t de la s\'c8quence trouv\'c8e */\
+    int path[tailleSeqA][tailleSeqB]; /* chemin de la meilleure sous-s\'c8quence */\
+    int i, j, k;\
+    int stopk, stopj, debk;/* debj;*/\
+    int indiceBpourBprime[tailleSeqA]; /* contient les indices de la s\'c8quence B retenu pour la meilleure sous-s\'c8quence B' */\
+    int meilleureSousSeq[tailleSeqA]; /* meilleure sous-s\'c8quence B' de B la plus proche de la s\'c8quence A */\
+\
+    /* initialisation des tableaux de sortie path et pathcost */\
+    for(i = 1; i <= tailleSeqA; i++)\
+    \{\
+        for(j = 1; j <= tailleSeqB; j++)\
+        \{\
+            pathcost[i - 1][j - 1] = INFINI;\
+            path[i - 1][j - 1] = 0;\
+        \}\
+    \}\
+\
+    /* cout du premier \'c8l\'c8ment de la s\'c8quence */\
+    for(j = 1; j <= elasticity + 1; j++)\
+    \{\
+        pathcost[1 - 1][j - 1] = (r[1 - 1][j -1]) * (r[1 - 1][j -1]);\
+    \}\
+\
+    for(i = 2; i <= tailleSeqA; i++) \
+        stopk = min(i - 1 + elasticity, tailleSeqB);\
+\
+		/*for(k = i-1; k <= stopk; k++)	*/\
+		debk=max(1,i-2);/*elasticity+1);*/\
+		for(k = debk; k <= stopk; k++)\
+        \{\
+            stopj = min(k + 1 + elasticity, tailleSeqB);\
+			/*debj=max(1,k-elasticity);\
+            for(j = debj ; j <= stopj; j++)*/\
+			for(j = k ; j <= stopj; j++)\
+			/*for(j = k + 1; j <= stopj; j++)*/\
+            \{\
+                if( pathcost[i -1][j - 1] > pathcost[i - 1 - 1][k - 1] + ((r[i - 1][j - 1]) * (r[i - 1][j - 1])) )\
+                \{\
+                    pathcost[i -1][j - 1] = pathcost[i - 1 - 1][k - 1] + ((r[i - 1][j - 1]) * (r[i - 1][j - 1]));\
+                    path[i -1][j - 1] = k;\
+                \}\
+            \}\
+        \}\
+    \}\
+\
+    /* On d\'c8termine la meilleure sous s\'c8quence B' de B \'87 partir des tableaux path et pathcost (qui sont maintenant peupl\'c8s) : */\
+\
+    /* recherche de l'indice de la case qui contient la plus petite valeur dans la derni\'cbre ligne de pathcost */\
+    indiceBpourBprime[tailleSeqA - 1] = 0;/*l'indice est dans le rep\'e8re tableau C (de 0 \'e0 tailleSeq)*/\
+    for(i = 1; i < tailleSeqB; i++)\
+    \{\
+	    /*printf("%d : pt[i]=%d ; pt[i-1]=%d; \\n",i,pathcost[tailleSeqA - 1][i],pathcost[tailleSeqA - 1][i-1]);*/\
+        /*if(pathcost[tailleSeqA - 1][i] < pathcost[tailleSeqA - 1][i - 1])*/\
+		if(pathcost[tailleSeqA - 1][i] <= pathcost[tailleSeqA - 1][indiceBpourBprime[tailleSeqA - 1]])\
+        \{\
+            indiceBpourBprime[tailleSeqA - 1] = i;\
+        \}\
+    \}\
+\
+	/*printf("meilleureSousSeq[%d]=%d\\n", tailleSeqA - 1, sequenceB[indiceBpourBprime[tailleSeqA - 1]]);*/\
+    meilleureSousSeq[tailleSeqA - 1] = sequenceB[indiceBpourBprime[tailleSeqA - 1]];\
+\
+    /* on remplit meilleureSousSeq de l'avant derni\'cbre case \'87 la premi\'cbre case grace \'87 path qui nous donne la correspondance B <=> B' */\
+    for(i = 1; i < tailleSeqA; i++)\
+    \{\
+        indiceBpourBprime[tailleSeqA - i - 1] = path[tailleSeqA - i][indiceBpourBprime[tailleSeqA - i]] - 1;\
+        meilleureSousSeq[tailleSeqA - i - 1] = sequenceB[indiceBpourBprime[tailleSeqA - i - 1]];\
+		/*printf("meilleureSousSeq[%d]=%d\\n", tailleSeqA -i- 1, sequenceB[indiceBpourBprime[tailleSeqA -i  - 1]]);*/\
+    \}\
+\
+    /* Affichage de r */\
+    printf("\\nMatrice des differences :\\n");\
+    afficherTab2DEntier(r, tailleSeqA, tailleSeqB, 2);\
+\
+    /* Affichage de pathcost */\
+    printf("\\nResultat pathcost :\\n");\
+    for(i = 0; i < tailleSeqA; i++)\
+    \{\
+        for(j = 0; j < tailleSeqB; j++)\
+        \{\
+            printf("%4d ", pathcost[i][j]);\
+        \}\
+\
+        printf("\\n");\
+    \}\
+\
+    /* Affichage de path */\
+    printf("\\nResultat path :\\n");\
+    for(i = 0; i < tailleSeqA; i++)\
+    \{\
+        for(j = 0; j < tailleSeqB; j++)\
+        \{\
+            printf("%4d ", path[i][j]);\
+        \}\
+\
+        printf("\\n");\
+    \}\
+\
+    printf("\\nMeilleure sous-sequence de B: ");\
+    afficherTabEntier(meilleureSousSeq, tailleSeqA);\
+\
+    /*printf("\\n\\nAlignement visuel :\\n");*/\
+    /*afficherAlignementSeqAB(sequenceA, sequenceB, tailleSeqA, tailleSeqB, indiceBpourBprime);*/\
+\
+    freeTab2D(r, tailleSeqA); /* lib\'c8ration de l'espace m\'c8moire occup\'c8 par la matrice des diff\'c8rences */\
+\}\
+/*\
+    Demande \'87 l'utilisateur de saisir une s\'c8quence d'entiers et retourne la s\'c8quence dans un tableau d'entiers.\
+\
+    Entr\'c8e:\
+        * Pointeur vers un entier qui sera utilis\'c8 comme variable de sortie.\
+    Sortie:\
+        * Le tableau d'entiers naturels contenant la s\'c8quence saisie par l'utilisateur, allou\'c8 sur le tas.\
+        * La taille de la s\'c8quence saisie par l'utilisateur et contenue dans le tableau de sortie.\
+*/\
+int *saisieSequence(int *tailleSequence)\
+\{\
+    int c; /* Contiendra le dernier \'c8l\'c8ment de la s\'c8quence tap\'c8 par l'utilisateur */\
+    int i = 0;\
+\
+    int *sequence = (int *) malloc(sizeof(int)*10);\
+\
+    printf("Veuiller entrer la sequence.\\n");\
+\
+    while(c != -1) /* boucle jusqu'\'87 ce que l'utilisateur tape -1 */\
+    \{\
+        printf("Element %d ?: ", i+1);\
+        scanf("%d",&c);\
+        printf("\\n");\
+\
+        if(c != -1)\
+        \{\
+            if(c >= 0)\
+            \{\
+                sequence[i]=c;\
+                i++;\
+\
+                if(i%10 == 0) /* ajout de 10 cases suppl\'c8mentaires au tableau de sortie si la limite est atteinte */\
+                \{\
+                    sequence = realloc(sequence, sizeof(int)*(i+10));\
+                \}\
+            \}\
+            else\
+            \{\
+                printf("Erreur. Vous devez saisir un entier positif.\\n");\
+            \}\
+\
+            printf("Sequence saisie: ");\
+            afficherTabEntier(sequence, i);\
+            printf("\\nTaper -1 si la saisie de votre sequence est terminee.\\n");\
+        \}\
+    \}\
+\
+    *tailleSequence = i;\
+    return sequence;\
+\
+/*\
+    Demande \'87 l'utilisateur la saisie de deux s\'c8quences A et B et fa\'c1on \'87 ce que ces s\'c8quences soient exploitables par l'algorithme MVM.\
+        (==> s\'c8quences d'entiers positifs et taille de la s\'c8quence B >= taille de la s\'c8quences A).\
+    O\uc0\u728  la s\'c8quence B est la s\'c8quence de d\'c8part.\
+    Et o\uc0\u728  la s\'c8quence A est le "mod\'cble" \'87 retrouver dans la s\'c8quence B.\
+\
+    Entr\'c8e:\
+        * Pointeurs vers des variables qui seront utilis\'c8es comme variables de sortie.\
+    Sortie:\
+        * (Pointeur sur) la s\'c8quence A saisie par l'utilisateur (tableau allou\'c8 sur le tas).\
+        * (Pointeur sur) la s\'c8quence B saisie par l'utilisateur (tableau allou\'c8 sur le tas).\
+        * La taille de la s\'c8quence A.\
+        * La taille de la s\'c8quence B.\
+*/\
+void saisieSequenceABmvm(int **sequenceA, int **sequenceB, int *tailleSeqA, int *tailleSeqB)\
+\{\
+    printf("SEQUENCE SOURCE DE DEPART B :\\n");\
+    *sequenceB = saisieSequence(tailleSeqB);\
+    printf("\\nVotre sequence source B vaut: ");\
+    afficherTabEntier(*sequenceB, *tailleSeqB);\
+\
+    do /* On demande la saisie de la sequence A \'87 l'utilisateur tant que celle-ci est plus grande que la s\'c8quence B */\
+    \{\
+        printf("\\n\\nSEQUENCE A (A PARTIR DE LAQUELLE LA SOUS-SEQUENCE DE B LA PLUS PROCHE SERA DETERMINE) :\\n");\
+        *sequenceA = saisieSequence(tailleSeqA);\
+\
+        if((*tailleSeqA) > (*tailleSeqB))\
+        \{\
+            printf("\\n /!\\\\ VOTRE SEQUENCE A EST TROP GRANDE. CELLE-CI NE DOIT PAS DEPASSER LA TAILLE DE LA SEQUENCE B (%d ELEMENT(S)). VEUILLEZ RE-SAISIR LA SEQUENCE A.", *tailleSeqB);\
+        \}\
+    \}\
+    while((*tailleSeqA) > (*tailleSeqB));\
+\
+    printf("\\nVotre sequence A vaut: ");\
+    afficherTabEntier(*sequenceA, *tailleSeqA);\
+    printf("\\nVotre sequence source B vaut: ");\
+    afficherTabEntier(*sequenceB, *tailleSeqB);\
+    printf("\\n");\
+\}\
+\
+int main()\
+\{\
+    int *sequenceA ;\
+    int tailleSeqA = 0;\
+\
+    int *sequenceB = NULL;\
+    int tailleSeqB = 0;\
+\
+\
+\
+    saisieSequenceABmvm(&sequenceA, &sequenceB, &tailleSeqA, &tailleSeqB);\
+    MVM(sequenceA, sequenceB, tailleSeqA, tailleSeqB);\
+\
+    free(sequenceA);\
+    free(sequenceB);\
+\
+    return 0;\
+\}\
+\
+}
